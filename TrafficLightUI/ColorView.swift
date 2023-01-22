@@ -7,21 +7,14 @@
 
 import SwiftUI
 
-
-struct ColorCircleView: View {
+struct ColorView: View {
     let color: Color
+    let opacity: Double
     
     var body: some View {
         Circle()
             .foregroundColor(color)
             .frame(width: 120, height: 120)
-            .overlay(Circle().stroke(Color.black, lineWidth: 3))
-            .opacity(0.3)
-    }
-}
-
-struct ColorCircleView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColorCircleView(color: .red)
+            .opacity(opacity)
     }
 }

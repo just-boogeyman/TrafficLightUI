@@ -7,44 +7,56 @@
 
 import SwiftUI
 
-
-enum TrafficLightType {
-    case red, yellow, green
+enum CurrentLight {
+    case off, red, yellow, green
 }
 
 struct ContentView: View {
     
-    @State var redCircle = ColorCircleView(color: .red)
-    @State var yellowCircle = ColorCircleView(color: .yellow)
-    @State var greenCircle = ColorCircleView(color: .green)
-    @State private var trafficLight: TrafficLightType = .red
-    
-    private let lightInOff: CGFloat = 0.3
-    private let lightInOn: CGFloat = 1.0
+    @State private var buttonTitle = "Start"
+    @State private var currentLight = CurrentLight.off
 
     
     var body: some View {
-        VStack {
-            redCircle
-            yellowCircle
-            greenCircle
-            Button(action: {
-                switch trafficLight {
-                case .red:
-                    trafficLight = .yellow
-                    redCircle.opacity(lightInOn)
-                case .yellow:
-                    trafficLight = .green
-
-                case .green:
-                    trafficLight = .red
-
+        ZStack {
+            Color(.black)
+                .ignoresSafeArea()
+            VStack(spacing: 20) {
+                ColorView(
+                    color: .red,
+                    opacity: currentLight == .red ? 1 : 0.3
+                )
+                ColorView(
+                    color: .yellow,
+                    opacity: currentLight == .yellow ? 1 : 0.3
+                )
+                ColorView(
+                    color: .green,
+                    opacity: currentLight == .green ? 1 : 0.3
+                )
+                
+                Spacer()
+                
+                Button(action: chenceColor) {
+                    Text(buttonTitle)
+                        .font(.title)
+                        .foregroundColor(.cyan)
                 }
-            }) {
-                Text("Next")
+                .padding(.bottom, 50)
             }
         }
-        .padding()
+    }
+    
+    private func chenceColor() {
+        if buttonTitle == "Start" {
+            buttonTitle = "Next"
+        }
+        switch currentLight {
+        case .off: currentLight = .red
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
+        }
     }
 }
 
